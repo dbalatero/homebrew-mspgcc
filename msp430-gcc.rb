@@ -42,13 +42,23 @@ class Msp430Gcc < Formula
     ENV.remove_from_cflags '-Qunused-arguments'
     ENV.remove_from_cflags '-march=native'
     ENV.remove_from_cflags(/ ?-mmacosx-version-min=10\.\d+/)
+    
+    # Configure args
+    args = [
+      "--target=msp430", 
+      "--enable-languages=c,c++", 
+      "--program-prefix='msp430-'", 
+      "--prefix=#{prefix}", 
+      "--with-as=#{binutils.opt_prefix}/msp430/bin/as", 
+      "--with-ld=#{binutils.opt_prefix}/msp430/bin/ld",
+      "CPPFLAGS=-D_FORTIFY_SOURCE=2"
+      ]
 
     # gcc must be built outside of the source directory.
     mkdir 'build' do
       binutils = Formula.factory('msp430-binutils')
       cc = ENV['CC']
-      cpp = ENV['CPP']
-      system "../configure", "--target=msp430", "--enable-languages=c", "--program-prefix='msp430-'", "--prefix=#{prefix}", "--with-as=#{binutils.opt_prefix}/msp430/bin/as", "--with-ld=#{binutils.opt_prefix}/msp430/bin/ld"
+      system "../configure", *args
       system "make"
       system "make install"
 
