@@ -47,9 +47,10 @@ class Msp430Gcc < Formula
     mkdir 'build' do
       binutils = Formula.factory('msp430-binutils')
       #cc = ENV['CC']
-      cc = '/usr/local/bin/gcc-4.9'
-      cpp = '/usr/local/bin/cpp-4.9'
-      
+      #cc = '/usr/local/bin/gcc-4.9'
+      #cpp = '/usr/local/bin/cpp-4.9'
+      ENV['PATH'] += ":#{binutils.bin}:#{bin}"
+
       # Configure args
       args = [
       "--target=msp430", 
@@ -58,7 +59,7 @@ class Msp430Gcc < Formula
       "--prefix=#{prefix}", 
       "--with-as=#{binutils.opt_prefix}/msp430/bin/as", 
       "--with-ld=#{binutils.opt_prefix}/msp430/bin/ld",
-      "CPPFLAGS=-D_FORTIFY_SOURCE=2"
+#      "--enable-version-specific-runtime-libs",
       ]
       
       system "../configure", *args
