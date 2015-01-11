@@ -48,7 +48,7 @@ class Msp430Gcc < Formula
       binutils = Formula.factory('msp430-binutils')
       #cc = ENV['CC']
       cc = 'gcc'
-      ENV['CPP'] = '/usr/bin/cpp'
+      ENV['CPP'] = 'cpp'
       cpp = ENV['CPP']
       
       # Configure args
