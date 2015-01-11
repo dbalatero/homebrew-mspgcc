@@ -22,7 +22,15 @@ class Msp430Gcc < Formula
     url "http://sourceforge.net/projects/mspgcc/files/Patches/gcc-4.7.0/msp430-gcc-4.7.0-20120911.patch/download"
     sha1 "3e70230f6052ed30d1a288724f2b97ab47581489"
   end
-
+  
+  patch do
+    url "http://sourceforge.net/p/mspgcc/bugs/352/attachment/0001-SF-352-Bad-code-generated-pushing-a20-from-stack.patch/download"
+  end
+  
+  patch do
+    url "http://sourceforge.net/p/mspgcc/bugs/_discuss/thread/fd929b9e/db43/attachment/0001-SF-357-Shift-operations-may-produce-incorrect-result.patch/download"
+  end
+  
   def install
     # The bootstrap process uses "xgcc", which doesn't have these flags. This
     # results in an error like the following:
