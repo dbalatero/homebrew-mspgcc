@@ -49,9 +49,18 @@ class Msp430Gcc < Formula
     # gcc must be built outside of the source directory.
     mkdir 'build' do
       binutils = Formula.factory('msp430-binutils')
-      #cc = ENV['CC']
-      #cc = '/usr/local/bin/gcc-4.9'
-      #cpp = '/usr/local/bin/cpp-4.9'
+      
+      # Force compilation with gcc-4.9
+      ENV['CC'] = '/usr/local/bin/gcc-4.9'
+      ENV['LD'] = '/usr/local/bin/gcc-4.9'
+      ENV['CXX'] = '/usr/local/bin/g++-4.9'
+
+      # Compiler complains about link compatibility with FORTRAN otherwise
+      ENV.delete('CFLAGS')
+      ENV.delete('CXXFLAGS')
+    
+      cc = ENV['CC']
+      
       ENV['PATH'] += ":#{binutils.bin}:#{bin}"
 
       # Configure args
@@ -62,7 +71,7 @@ class Msp430Gcc < Formula
       "--prefix=#{prefix}", 
       "--with-as=#{binutils.opt_prefix}/msp430/bin/as", 
       "--with-ld=#{binutils.opt_prefix}/msp430/bin/ld",
-      "--enable-version-specific-runtime-libs",
+      #"--enable-version-specific-runtime-libs",
       ]
       
       system "../configure", *args
