@@ -18,6 +18,9 @@ class Msp430Gcc < Formula
   depends_on 'isl'
   depends_on 'libmpc'
 
+  fails_with :clang
+  fails_with :llvm
+  
   patch do
     url "http://sourceforge.net/projects/mspgcc/files/Patches/gcc-4.7.0/msp430-gcc-4.7.0-20120911.patch/download"
     sha1 "3e70230f6052ed30d1a288724f2b97ab47581489"
@@ -39,9 +42,9 @@ class Msp430Gcc < Formula
     # configure: error: cannot compute suffix of object files: cannot compile
     # which, upon further inspection, arises when xgcc bails out when it sees
     # this argument.
-    ENV.remove_from_cflags '-Qunused-arguments'
-    ENV.remove_from_cflags '-march=native'
-    ENV.remove_from_cflags(/ ?-mmacosx-version-min=10\.\d+/)
+    #ENV.remove_from_cflags '-Qunused-arguments'
+    #ENV.remove_from_cflags '-march=native'
+    #ENV.remove_from_cflags(/ ?-mmacosx-version-min=10\.\d+/)
 
     # gcc must be built outside of the source directory.
     mkdir 'build' do
@@ -59,7 +62,7 @@ class Msp430Gcc < Formula
       "--prefix=#{prefix}", 
       "--with-as=#{binutils.opt_prefix}/msp430/bin/as", 
       "--with-ld=#{binutils.opt_prefix}/msp430/bin/ld",
-#      "--enable-version-specific-runtime-libs",
+      "--enable-version-specific-runtime-libs",
       ]
       
       system "../configure", *args
